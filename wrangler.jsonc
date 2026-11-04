@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fabiana-silvestre-site",
+  "compatibility_date": "2026-10-01",
+  // Site estático servido pelo Cloudflare Workers (Static Assets).
+  // Se no futuro precisar de backend (formulário, blog), adicione "main": "src/index.ts" com Hono.
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}
