@@ -20,6 +20,17 @@
     update();
   }
 
+  // Cabeçalho: mostra o nome quando o título do topo sai da tela.
+  var topbar = document.querySelector('.topbar');
+  var heroTitle = document.querySelector('.hero-title');
+  if (topbar && heroTitle && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      topbar.classList.toggle('scrolled', !entries[0].isIntersecting);
+    }, { rootMargin: '-68px 0px 0px 0px' }).observe(heroTitle);
+  } else if (topbar) {
+    topbar.classList.add('scrolled');
+  }
+
   // Entrada suave dos blocos ao rolar (o conteúdo fica visível sem script ou com movimento reduzido).
   var els = document.querySelectorAll('[data-reveal]');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -10,6 +10,7 @@
   --accent-hover: #634537;
   --mocha: #a67c68;       /* mocha dos posts: detalhes */
   --olive: #4f6b4e;       /* verde-folha */
+  --sage: #b7c0a0;        /* verde-folha claro: bloco atrás da foto do topo */
   --dark: #2b2420;
 
   --gutter: clamp(16px, 4vw, 64px);
@@ -62,7 +63,14 @@ img { display: block; max-width: 100%; height: auto; }
 /* Topo: barra lisa num tom abaixo do fundo */
 .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg-step); }
 .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; height: 68px; }
-.brand { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+.brand { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 600; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: .75rem; }
+.mono {
+  flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+  background: var(--accent); color: var(--bg); font-size: 1.15rem; font-weight: 600; letter-spacing: .02em;
+}
+/* O nome só aparece no cabeçalho depois que o nome grande do topo sai da tela */
+.js .brand-name { opacity: 0; transform: translateX(-8px); transition: opacity .4s ease, transform .4s ease; }
+.js .topbar.scrolled .brand-name { opacity: 1; transform: none; }
 .nav { display: flex; align-items: center; gap: 1.6rem; }
 .nav a:not(.btn) { color: var(--ink); text-decoration: none; font-size: var(--fs-small); }
 .nav a:not(.btn):hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
@@ -82,8 +90,19 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-body { grid-area: body; align-self: start; margin-top: clamp(32px, 4vw, 56px); max-width: 34em; }
 .hero-body .btn { margin-top: .6rem; }
 .hero-body .note { margin-top: 1rem; }
-.hero-photo { grid-area: photo; margin: 0; align-self: stretch; }
-.hero-photo img { width: 100%; height: 100%; max-height: calc(100svh - 68px - 72px); object-fit: cover; object-position: 50% 25%; }
+/* Foto do topo: arco (como nos carrosséis da Fabi) sobre um bloco de cor deslocado, sem sombra */
+.hero-photo { grid-area: photo; margin: 0 0 0 28px; align-self: stretch; position: relative; isolation: isolate; }
+.hero-photo::before {
+  content: ""; position: absolute; z-index: -1;
+  top: 56px; right: 28px; bottom: -28px; left: -28px;
+  background: var(--sage); border-radius: 999px 999px 0 0;
+}
+.hero-photo img {
+  width: 100%; height: 100%; max-height: calc(100svh - 68px - 100px);
+  object-fit: cover; object-position: 50% 25%;
+  border-radius: 999px 999px 0 0;
+  filter: saturate(.82) sepia(.08);
+}
 
 /* Faixa escura: ouvir × escutar */
 .quote-band { background: var(--dark); color: var(--bg); padding: clamp(80px, 10vw, 140px) 0; margin-top: var(--gap-section); }
@@ -188,8 +207,9 @@ img { display: block; max-width: 100%; height: auto; }
     grid-template-rows: none;
     min-height: 0;
   }
-  .hero-photo { margin-top: 1.6rem; }
-  .hero-photo img { aspect-ratio: 1 / 1; max-height: none; height: auto; }
+  .hero-photo { margin: 1.6rem 0 0 16px; }
+  .hero-photo::before { top: 32px; right: 16px; bottom: -16px; left: -16px; }
+  .hero-photo img { aspect-ratio: 4 / 5; max-height: 460px; height: auto; }
   .hero-body { margin-top: 1.6rem; }
   .split { grid-template-columns: 1fr; row-gap: 1.6rem; }
   .message { position: static; }
